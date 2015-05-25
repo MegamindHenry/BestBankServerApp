@@ -1,15 +1,13 @@
 package trastienda.dao;
 
+import trastienda.excepcion.DAOExcepcion;
+import trastienda.modelo.Customer;
+import trastienda.util.ConexionBD;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-
-import trastienda.excepcion.DAOExcepcion;
-import trastienda.modelo.Customer;
-import trastienda.util.ConexionBD;
 
 public class CustomerDAO extends BaseDAO {
 

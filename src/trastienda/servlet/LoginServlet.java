@@ -8,7 +8,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Collection;
 
 @WebServlet("/login")
 public class LoginServlet extends javax.servlet.http.HttpServlet {
