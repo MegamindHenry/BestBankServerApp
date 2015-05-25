@@ -41,9 +41,9 @@ public class CustomerDAO extends BaseDAO {
             System.err.println(e.getMessage());
             throw new DAOExcepcion(e.getMessage());
         } finally {
-            this.cerrarResultSet(rs);
-            this.cerrarStatement(stmt);
-            this.cerrarConexion(con);
+        	this.closeResultSet(rs);
+			this.closeStatement(stmt);
+			this.closeConnection(con);
         }
         return cu;
 
