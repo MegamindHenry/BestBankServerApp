@@ -13,38 +13,43 @@ import trastienda.util.ConexionBD;
 
 public class CustomerDAO extends BaseDAO {
 
-	public Customer login(String username, String password) throws DAOExcepcion {
-		Customer vo = new Customer();
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			String query = "select firstName, lastName from customer where username=? AND password =?";
-			con = ConexionBD.obtenerConexion();
-			stmt = con.prepareStatement(query);
-			stmt.setString(1, username);
-			stmt.setString(2, password);
+    public Customer login(String username, String password) throws DAOExcepcion {
 
-			rs = stmt.executeQuery();
-			if (rs.next()) {
-				
-				vo.setFirstName(rs.getString(1));
-				vo.setLastName(rs.getString(2));
-			}
-			else
-			{
-				throw new DAOExcepcion("Login is incorrect");
-			}
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-			throw new DAOExcepcion(e.getMessage());
-		} finally {
-			this.cerrarResultSet(rs);
-			this.cerrarStatement(stmt);
-			this.cerrarConexion(con);
-		}
-		return vo;
-	}
+        Customer cu = new Customer();
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Boolean granted = false;
+
+        try {
+
+            String query = "select Username, Salutation, FirstName, MiddleName, Lastname, NameSuffix from customer where Username=? and Password=?";
+            con = ConexionBD.obtenerConexion();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                cu.setUsername(rs.getString(1));
+                cu.setSalutation(rs.getString(2));
+                cu.setFirstName(rs.getString(3));
+                cu.setMiddleName(rs.getString(4));
+                cu.setLastName(rs.getString(5));
+                cu.setNameSuffix(rs.getString(6));
+                granted = true;
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new DAOExcepcion(e.getMessage());
+        } finally {
+            this.cerrarResultSet(rs);
+            this.cerrarStatement(stmt);
+            this.cerrarConexion(con);
+        }
+        return cu;
+
+    }
 
 		
 }
