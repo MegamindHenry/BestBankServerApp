@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-// dao 245546445644
+// dao 245546fsdfs
 public class BaseDAO {
 	
 	protected void cerrarConexion(Connection con) throws RuntimeException {
