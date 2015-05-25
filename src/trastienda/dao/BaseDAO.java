@@ -6,11 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-<<<<<<< HEAD
 // dao 
-=======
-// dao 2
->>>>>>> origin/master
 public class BaseDAO {
 	
 	protected void closeConnection(Connection con) throws RuntimeException {
@@ -19,7 +15,7 @@ public class BaseDAO {
 				con.close();
 			}
 		} catch (SQLException se) {
-			System.err.println("Error: closeConnection: " + se);
+			System.err.println("Error: cerrarConexion: " + se);
 		}
 	}
 
@@ -29,7 +25,7 @@ public class BaseDAO {
 				rs.close();
 			}
 		} catch (SQLException se) {
-			System.err.println("Error: closeResultSet: " + se);
+			System.err.println("Error: cerrarResultSet: " + se);
 		}
 	}
 
@@ -40,18 +36,18 @@ public class BaseDAO {
 				stmt.close();
 			}
 		} catch (SQLException se) {
-			System.err.println("Error: closeStatement: " + se);
+			System.err.println("Error: cerrarStatement: " + se);
 		}
 	}
 
-	protected void closeCallable(CallableStatement callstmt)
+	protected void cerrarCallable(CallableStatement callstmt)
 			throws RuntimeException {
 		try {
 			if (callstmt != null) {
 				callstmt.close();
 			}
 		} catch (SQLException se) {
-			System.err.println("Error: closeCallable: " + se);
+			System.err.println("Error: cerrarCallable: " + se);
 		}
 	}
 }
