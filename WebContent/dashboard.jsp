@@ -1,7 +1,4 @@
-<%@ page import="java.util.Collection" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="bank.modelo.Customer" %>
+<%@ page import="trastienda.modelo.Customer" %>
 <%--
   Created by IntelliJ IDEA.
   User: jorge
@@ -150,28 +147,23 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <%
-                    Collection c = (ArrayList)session.getAttribute("login");
+                    Customer c = (Customer)session.getAttribute("login");
                     String salutation = "";
                     String firstName = "";
                     String middleName = "";
                     String lastName = "";
                     String nameSuffix = "";
-                    if(c != null) {
-                        for(Iterator i=c.iterator();i.hasNext();){
-                            Customer vo = (Customer)i.next();
-                            salutation = vo.getSalutation();
-                            firstName = vo.getFirstName();
-                            middleName = vo.getMiddleName();
-                            lastName = vo.getLastName();
-                            nameSuffix = vo.getNameSuffix();
-                            out.println("<li class=\"dropdown\">" +
-                                    "<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">"+vo.getUsername()+"<span class=\"caret\"></span></a>" +
-                                    "<ul class=\"dropdown-menu\" role=\"menu\">" +
-                                        "<li><a href=\"#\">Logout</a></li>" +
-                                    "</ul>" +
-                                    "</li>");
-                        }
-                    }
+                    salutation = c.getSalutation();
+                    firstName = c.getFirstName();
+                    middleName = c.getMiddleName();
+                    lastName = c.getLastName();
+                    nameSuffix = c.getNameSuffix();
+                    out.println("<li class=\"dropdown\">" +
+                            "<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">"+vo.getUsername()+"<span class=\"caret\"></span></a>" +
+                            "<ul class=\"dropdown-menu\" role=\"menu\">" +
+                            "<li><a href=\"#\">Logout</a></li>" +
+                            "</ul>" +
+                            "</li>");
                 %>
             </ul>
         </div>
