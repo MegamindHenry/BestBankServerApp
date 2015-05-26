@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import trastienda.excepcion.DAOExcepcion;
+import trastienda.modelo.Account;
+import trastienda.modelo.Checking;
+import trastienda.modelo.Saving;
 import trastienda.modelo.Transaction;
 import trastienda.util.ConexionBD;
-
 
 public class TransactionDAO extends BaseDAO 
 {
@@ -34,16 +36,24 @@ public class TransactionDAO extends BaseDAO
 			{
 				vo.setTransId(rs.getInt(1));
 				vo.setTransType(rs.getString(2));
-				vo.setTransDateTime(rs.getDate(3));
+				vo.setTransDateTime(rs.getString(3));
 				vo.setTransAmount(rs.getDouble(4));
 				vo.setTransDescription(rs.getString(5));
 				vo.setTransStatus(rs.getString(6));
-				vo.setTransAccountTarget(rs.getInt(7));
 				vo.setTransAccountType(rs.getString(8));
 				//Not sure how to fix this error
-				//Account account = new Account();
-				//account.setAccountNumber(rs.getInt(9));
-				//vo.setAccount(account);
+				if(rs.getString(8).equals("0"))
+				{
+					Checking account = new Checking();
+					account.setAccountNumber(rs.getInt(7));
+					vo.setAccount(account);
+				}
+				else
+				{
+					Saving account = new Saving();
+					account.setAccountNumber(rs.getInt(7));
+					vo.setAccount(account);
+				}
 			}
 			
 		} 
@@ -84,16 +94,25 @@ public class TransactionDAO extends BaseDAO
 				Transaction vo = new Transaction();
 				vo.setTransId(rs.getInt("transId"));
 				vo.setTransType(rs.getString("transType"));
-				vo.setTransDateTime(rs.getDate("transDateTime"));
+				vo.setTransDateTime(rs.getString("transDateTime"));
 				vo.setTransAmount(rs.getDouble("transAmount"));
 				vo.setTransDescription(rs.getString("transDescription"));
 				vo.setTransStatus(rs.getString("transStatus"));
 				vo.setTransAccountTarget(rs.getInt("transAccountTarget"));
 				vo.setTransAccountType(rs.getString("transAccountType"));
 				//Not sure how to fix this error
-				//Account account = new Account();
-				//account.setAccountNumber(rs.getInt("accountNumber"));
-				//vo.setAccount(account);
+				if(rs.getString(8).equals("0"))
+				{
+					Checking account = new Checking();
+					account.setAccountNumber(rs.getInt("accountNumber"));
+					vo.setAccount(account);
+				}
+				else
+				{
+					Saving account = new Saving();
+					account.setAccountNumber(rs.getInt("accountNumber"));
+					vo.setAccount(account);
+				}
 				t.add(vo);
 			}
 			
@@ -114,7 +133,7 @@ public class TransactionDAO extends BaseDAO
 		return t;
 	}
 
-	public Transaction insertar(Transaction vo) throws DAOExcepcion 
+	public Transaction insert(Transaction vo) throws DAOExcepcion 
 	{
 		String query = "INSERT INTO transaction(TransactionID, Type, DateTime, Amount, Description, Status, AccountTarget, AccountType) VALUES (?,?,?,?,?,?,?,?)";
 		Connection con = null;
@@ -128,13 +147,13 @@ public class TransactionDAO extends BaseDAO
 			
 			stmt.setInt(1, vo.getTransId());
 			stmt.setString(2, vo.getTransType());
-			stmt.setDate(3, (Date) vo.getTransDateTime());
+			stmt.setString(3, (String) vo.getTransDateTime());
 			stmt.setDouble(4, vo.getTransAmount());
 			stmt.setString(5, vo.getTransDescription());
 			stmt.setString(6, vo.getTransStatus());
 			stmt.setInt(7, vo.getTransAccountTarget());
 			stmt.setString(8, vo.getTransAccountType());
-			//stmt.setInt(9, vo.getAccount().getAccountNumber());
+			stmt.setInt(9, vo.getAccount().getAccountNumber());
 			
 			
 			int i = stmt.executeUpdate();
@@ -169,7 +188,7 @@ public class TransactionDAO extends BaseDAO
 		return vo;
 	}
 
-	public void eliminar(int transId) throws DAOExcepcion 
+	public void delete(int transId) throws DAOExcepcion 
 	{
 		String query = "DELETE FROM transaction WHERE TransactionID=?";
 		Connection con = null;
@@ -218,7 +237,7 @@ public class TransactionDAO extends BaseDAO
 				Transaction vo = new Transaction();
 				vo.setTransId(rs.getInt("TransactionID"));				
 				vo.setTransType(rs.getString("Type"));
-				vo.setTransDateTime(rs.getDate("DateTime"));
+				vo.setTransDateTime(rs.getString("DateTime"));
 				vo.setTransAmount(rs.getDouble("Amount"));
 				vo.setTransDescription(rs.getString("Description"));
 				vo.setTransStatus(rs.getString("Status"));

@@ -1,24 +1,28 @@
 package trastienda.modelo;
 
+// import java.util.ArrayList;
 import java.util.*;
+
+import trastienda.modelo.Account;
 
 public class Transaction 
 {
 	private int transId;
 	private String transType;
-	private Date transDateTime;	
+	private String transDateTime;	
 	private Double transAmount;
 	private String transDescription;
 	private String transStatus;
 	private int transAccountTarget;
 	private String transAccountType;
+	private Account account;
 	
 	public Transaction() 
 	{
 
 	}
 
-	public Transaction(int transId, String transType, Date transDateTime, Double transAmount, String transDescription, String transStatus, int transAccountTarget, String transAccountType) 
+	public Transaction(int transId, String transType, String transDateTime, Double transAmount, String transDescription, String transStatus, int transAccountTarget, String transAccountType, Account account) 
 	{
 		super();
 		this.transId = transId;
@@ -29,6 +33,7 @@ public class Transaction
 		this.transStatus = transStatus;
 		this.transAccountTarget = transAccountTarget;
 		this.transAccountType = transAccountType;
+		this.account = account;
 	}
 
 	public int getTransId() 
@@ -51,12 +56,12 @@ public class Transaction
 		this.transType = transType;
 	}
 	
-	public Date getTransDateTime() 
+	public String getTransDateTime() 
 	{
 		return transDateTime;
 	}
 
-	public void setTransDateTime(Date transDateTime) 
+	public void setTransDateTime(String transDateTime) 
 	{
 		this.transDateTime = transDateTime;
 	}
@@ -110,4 +115,15 @@ public class Transaction
 	{
 		this.transAccountType = transAccountType;
 	}
+	
+	public void setAccount(Account account) 
+	{
+		this.account = account;
+	}
+
+	public Account getAccount() 
+	{
+		return account;
+	}
+
 }
