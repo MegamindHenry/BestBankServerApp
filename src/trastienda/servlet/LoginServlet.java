@@ -24,6 +24,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             if(c.getUsername() != null) {
                 HttpSession httpSession = request.getSession(true);
                 httpSession.setAttribute("login", c);
+                dao.addCount(username, 0);
                 rd = request.getRequestDispatcher("dashboard.jsp");
             } else {
                 Integer count = dao.getCounterByUsername(username);

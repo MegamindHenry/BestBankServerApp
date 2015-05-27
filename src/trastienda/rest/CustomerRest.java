@@ -26,6 +26,7 @@ public class CustomerRest {
 			CustomerDAO dao = new CustomerDAO();
             Customer vo = dao.login(username, password);
             if(vo.getUsername() != null) {
+                dao.addCount(username, 0);
                 jsonObj.put("response", "success");
             } else {
                 Integer count = dao.getCounterByUsername(username);
@@ -33,8 +34,10 @@ public class CustomerRest {
                 dao.addCount(username, count);
                 if(count > 2) {
                     dao.changeStatus(username, 1);
+                    jsonObj.put("response", "lock");
+                } else {
+                    jsonObj.put("response", "fail");
                 }
-                jsonObj.put("response", "fail");
             }
 
 		} catch (DAOExcepcion e) {
