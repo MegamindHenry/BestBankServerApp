@@ -20,8 +20,6 @@ public class CustomerRest {
 	public String login(@FormParam("username") String username, 
 							@FormParam("password") String password) {
 
-		System.out.println("procesing login!!!: " + username);
-
 		JSONObject jsonObj = new JSONObject();
 		
 		try {
