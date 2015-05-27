@@ -19,7 +19,6 @@ public class QuestionDAO extends BaseDAO {
 
 	public Collection<Question> getAll() throws DAOExcepcion {
 
-		Question vo = new Question();
         Collection<Question> c = new ArrayList<Question>();
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -30,8 +29,9 @@ public class QuestionDAO extends BaseDAO {
 			stmt = con.prepareStatement(query);
 
 			rs = stmt.executeQuery();
-			if (rs.next()) {
-				vo.setQuestionNum(rs.getInt(1));
+			while (rs.next()) {
+                Question vo = new Question();
+                vo.setQuestionNum(rs.getInt(1));
 				vo.setQuestion(rs.getString(2));
                 c.add(vo);
 			}
