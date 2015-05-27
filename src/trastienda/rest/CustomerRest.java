@@ -21,15 +21,12 @@ public class CustomerRest {
 							@FormParam("password") String password) {
 
 		JSONObject jsonObj = new JSONObject();
-        jsonObj.put("response", "fail");
 
-        try {
+		try {
 			CustomerDAO dao = new CustomerDAO();
-
             Customer vo = dao.login(username, password);
             if(vo.getUsername() != null) {
                 jsonObj.put("response", "success");
-
             } else {
                 Integer count = dao.getCounterByUsername(username);
                 count++;
@@ -37,12 +34,15 @@ public class CustomerRest {
                 if(count > 2) {
                     dao.changeStatus(username, 1);
                 }
+                jsonObj.put("response", "fail");
             }
 
 		} catch (DAOExcepcion e) {
 			System.out.println(e.getMessage());
+            jsonObj.put("response", "error");
 		}
 		return jsonObj.toString();
 	}
+
 
 }
