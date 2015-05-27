@@ -55,6 +55,43 @@ public class TransactionRest
 		return arrayObj.toString();
 	}
 	
+	//Make Withdraw
+	@POST
+	@Path("/withdraw/{Account}/{Amount}/{Type}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String makeWithdraw( @PathParam("{Amount}") String amount, @PathParam("{Account}") String accountNum, @PathParam("{Type}") String accountType) 
+	{
+		
+		JSONObject obj = new JSONObject();
+		
+		try 
+		{
+			TransactionDAO transDao = new TransactionDAO();
+			
+			Transaction withdraw = new Transaction();
+			withdraw.setTransAmount(Double.parseDouble(amount));
+			withdraw.setTransAccountTarget(Integer.parseInt(accountNum));
+			if(accountType.equals("Saving"))
+			{
+				Saving account = new Saving();
+				double balance = account.getAvailableBal();
+				if(balance > Double.parseDouble(amount))
+				{
+					account.setAvailableBal(balance - Double.parseDouble(amount));
+					System.out.println("It may have worked");
+				}
+			}
+			transDao.insert(withdraw);
+			
+		} 
+		
+		catch (DAOExcepcion e) 
+		{	
+			System.out.println(e.getMessage());
+		}
+		return obj.toString();
+	}
+	
 	//Show all transactions
 	
 	@GET
