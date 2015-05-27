@@ -17,6 +17,11 @@ public class Customer {
 	private String phoneNumber;
 	private String socialSecurityNumber;
 	private String username;
+    private Address address;
+
+    // Para JSON
+    private int idAddress;
+
 	public int getCustomerID() {
 		return customerID;
 	}
@@ -107,6 +112,18 @@ public class Customer {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    public Address getAddress() {
+        return address;
+    }
+    public int getIdAddress() {
+        return idAddress;
+    }
+    public void setIdAddress(int idAddress) {
+        this.idAddress = idAddress;
+    }
 	
 	
 	
