@@ -1,8 +1,8 @@
 package trastienda.servlet;
 
+import trastienda.dao.CustomerDAO;
 import trastienda.excepcion.DAOExcepcion;
 import trastienda.modelo.Customer;
-import trastienda.negocio.Session;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
@@ -16,16 +16,22 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        Session session = new Session();
-        Customer c = new Customer();
+        CustomerDAO dao = new CustomerDAO();
 
         try {
-            c = session.login(username, password);
+            Customer c = new Customer();
+            c = dao.login(username, password);
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             if(c.getUsername() != null) {
                 HttpSession httpSession = request.getSession(true);
                 httpSession.setAttribute("login", c);
                 rd = request.getRequestDispatcher("dashboard.jsp");
+            } else {
+                Integer count = dao.getCounterByUsername(username);
+                count++;
+                if(count > 2) {
+                    dao.changeStatus(username, "Blocked");
+                }
             }
             rd.forward(request, response);
         } catch (DAOExcepcion daoExcepcion) {

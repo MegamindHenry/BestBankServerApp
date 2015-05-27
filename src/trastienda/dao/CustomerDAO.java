@@ -17,15 +17,15 @@ public class CustomerDAO extends BaseDAO {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Boolean granted = false;
 
         try {
 
-            String query = "select Username, Salutation, FirstName, MiddleName, Lastname, NameSuffix from customer where Username=? and Password=?";
+            String query = "select Username, Salutation, FirstName, MiddleName, Lastname, NameSuffix from customer where Username=? and Password=? and not Status=?";
             con = ConexionBD.obtenerConexion();
             stmt = con.prepareStatement(query);
             stmt.setString(1, username);
             stmt.setString(2, password);
+            stmt.setString(3, "Blocked");
 
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -35,7 +35,6 @@ public class CustomerDAO extends BaseDAO {
                 cu.setMiddleName(rs.getString(4));
                 cu.setLastName(rs.getString(5));
                 cu.setNameSuffix(rs.getString(6));
-                granted = true;
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -47,6 +46,63 @@ public class CustomerDAO extends BaseDAO {
         }
         return cu;
 
+    }
+
+    public Integer getCounterByUsername(String username) throws DAOExcepcion {
+
+        Integer count = 0;
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+
+            String query = "select AttempCounter from customer where Username=?";
+            con = ConexionBD.obtenerConexion();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, username);
+
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new DAOExcepcion(e.getMessage());
+        } finally {
+        	this.closeResultSet(rs);
+			this.closeStatement(stmt);
+			this.closeConnection(con);
+        }
+        return count;
+
+    }
+
+    public Boolean changeStatus(String username, String status) throws DAOExcepcion {
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Boolean r = false;
+        try {
+
+            String query = "INSERT INTO customer (Status) values (?) where Username = ?";
+            con = ConexionBD.obtenerConexion();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, status);
+            stmt.setString(1, username);
+            r = true;
+
+            rs = stmt.executeQuery();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new DAOExcepcion(e.getMessage());
+        } finally {
+            this.closeResultSet(rs);
+            this.closeStatement(stmt);
+            this.closeConnection(con);
+        }
+        return r;
     }
 
 		
