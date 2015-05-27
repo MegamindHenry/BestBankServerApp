@@ -20,12 +20,12 @@ public class CustomerDAO extends BaseDAO {
 
         try {
 
-            String query = "select Username, Salutation, FirstName, MiddleName, Lastname, NameSuffix from customer where Username=? and Password=? and not Status=?";
+            String query = "select Username, Salutation, FirstName, MiddleName, Lastname, NameSuffix from customer where Username=? and Password=? and Status=?";
             con = ConexionBD.obtenerConexion();
             stmt = con.prepareStatement(query);
             stmt.setString(1, username);
             stmt.setString(2, password);
-            stmt.setString(3, "Blocked");
+            stmt.setInt(3, 0);
 
             rs = stmt.executeQuery();
             if (rs.next()) {
