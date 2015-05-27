@@ -4,6 +4,8 @@
 <%@ page import="trastienda.dao.TransactionDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Collection" %>
+<% double totalW = 0; %>
+<% double totalD= 0; %>
 
 <html>
   <head>
@@ -169,8 +171,14 @@
 
 <body>
 
+<%
+
+
+
+%>
+
 				<%
- 		        TransactionDAO transactionDAO = new TransactionDAO();
+				TransactionDAO transactionDAO = new TransactionDAO();
  		        Collection<Transaction> transactions = new ArrayList<Transaction>();
  		        transactions = transactionDAO.listTransactionsByType("0");
  		        %>
@@ -279,11 +287,9 @@
           <th>Date</th>
           <th>Withdrawal</th>
           <th>Deposits</th>
-          <th>Balance</th>
         </tr>
       </thead>
       <tbody>
-      
           <%
           for (Transaction t : transactions) {
 	          out.println("<tr>" + "<th scope=\"row\">"
@@ -291,15 +297,31 @@
 	          "<td>" + t.getTransDateTime()   + "</td>");
 	          if(t.getTransType().equals("Withdrawal")){
 	        	  out.println( "<td>" + t.getTransAmount() + "</td>");
+	        	  out.println("<td>" + "</td>");
+	        	  totalW=totalW+t.getTransAmount();
 	          }
 	          else{
 	        	  out.println("<td>" + "</td>");
 	        	  out.println( "<td>" + t.getTransAmount() + "</td>" + "</tr>");
+	        	  totalD=totalD+t.getTransAmount();
 	          }
           }
           %>
       </tbody>
     </table>
+
+		<table class="table table-bordered">
+		<tr>
+          <th scope="row">Balance</th>
+          <%
+
+			 out.println("<tr>" + "<th scope=\"row\">"
+              + (totalD-totalW) + "</th>");
+	         
+	          %>
+        </tr>
+		</table>
+    
 	<button type="button"  class="btn btn-primary">Back</button>
 
     </div>
