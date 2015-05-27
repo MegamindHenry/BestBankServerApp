@@ -11,12 +11,13 @@
   <head>
 	<title>Monthly Statement</title>
 	<!-- Latest compiled and minified CSS -->
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
           <!-- Latest compiled and minified CSS -->
 
 
       <!-- Latest compiled and minified JavaScript -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+     
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
          
 	<script type="text/javascript">
@@ -43,21 +44,7 @@
 	<!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
  
-	<script>
-		if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
-    	jQuery(function($){ //on document.ready
-        	$('#monthlystat').datepicker();
-    	})
-		}
-	</script>
 
-	<script>
-		if (datefield.type!="date1"){ //if browser doesn't support input type="date", initialize date picker widget:
-    	jQuery(function($){ //on document.ready
-        	$('#monthlystat1').datepicker({ dateFormat: 'dd/mm/yy'}).datepicker("setDate", new Date());
-	    })
-		}
-	</script>
 	
 	  <style>
         /*
@@ -171,11 +158,8 @@
 
 <body>
 
-<%
+<form action="Monthlystatement.jsp" method="post">
 
-
-
-%>
 
 				<%
 				TransactionDAO transactionDAO = new TransactionDAO();
@@ -264,7 +248,7 @@
 	<div class="col-lg3">
     <div class="input-group">
     <span class="input-group-addon" id="sizing-addon1">Start Date: </span>
-      <input type="date" class="form-control" id="monthlystat" placeholder="Input Date">
+      <input type="date" class="form-control" id="monthlystat666" placeholder="Input Date">
     </div><!-- /input-group -->
   	</div>
  
@@ -273,11 +257,11 @@
   	<div class="col-lg3">
     <div class="input-group">
     <span class="input-group-addon" id="sizing-addon1">End  Date:  </span>
-      <input type="date1" class="form-control" id="monthlystat1">
+      <input type="date" class="form-control" id="monthlystat1666">
     </div><!-- /input-group -->
   	</div>
   	</br>
-  	<button type="button"  class="btn btn-default">Search</button>
+  	<button type="submit" name="procesar" class="btn btn-default">Search</button>
 	</br>
 	
 	<table class="table table-striped">
@@ -291,6 +275,9 @@
       </thead>
       <tbody>
           <%
+          
+          if(request.getParameter("procesar")!=null){
+        	  
           for (Transaction t : transactions) {
 	          out.println("<tr>" + "<th scope=\"row\">"
               + t.getTransDescription() + "</th>" + 
@@ -305,6 +292,7 @@
 	        	  out.println( "<td>" + t.getTransAmount() + "</td>" + "</tr>");
 	        	  totalD=totalD+t.getTransAmount();
 	          }
+          }
           }
           %>
       </tbody>
@@ -326,5 +314,6 @@
 
     </div>
    </div>	 
+   </form>
     </body>
 </html>
