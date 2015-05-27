@@ -28,8 +28,9 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             } else {
                 Integer count = dao.getCounterByUsername(username);
                 count++;
+                dao.addCount(username, count);
                 if(count > 2) {
-                    dao.changeStatus(username, "Blocked");
+                    dao.changeStatus(username, 1);
                 }
             }
             rd.forward(request, response);

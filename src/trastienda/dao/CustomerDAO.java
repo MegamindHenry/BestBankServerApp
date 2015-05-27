@@ -78,7 +78,7 @@ public class CustomerDAO extends BaseDAO {
 
     }
 
-    public Boolean changeStatus(String username, String status) throws DAOExcepcion {
+    public Boolean changeStatus(String username, Integer status) throws DAOExcepcion {
 
         Connection con = null;
         PreparedStatement stmt = null;
@@ -89,7 +89,34 @@ public class CustomerDAO extends BaseDAO {
             String query = "INSERT INTO customer (Status) values (?) where Username = ?";
             con = ConexionBD.obtenerConexion();
             stmt = con.prepareStatement(query);
-            stmt.setString(1, status);
+            stmt.setInt(1, status);
+            stmt.setString(1, username);
+            r = true;
+
+            rs = stmt.executeQuery();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new DAOExcepcion(e.getMessage());
+        } finally {
+            this.closeResultSet(rs);
+            this.closeStatement(stmt);
+            this.closeConnection(con);
+        }
+        return r;
+    }
+
+    public Boolean addCount(String username, Integer count) throws DAOExcepcion {
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Boolean r = false;
+        try {
+
+            String query = "INSERT INTO customer (AttemptCounter) values (?) where Username = ?";
+            con = ConexionBD.obtenerConexion();
+            stmt = con.prepareStatement(query);
+            stmt.setInt(1, count);
             stmt.setString(1, username);
             r = true;
 

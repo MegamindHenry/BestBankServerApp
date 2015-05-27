@@ -27,15 +27,21 @@ public class CustomerRest {
 		try {
 			CustomerDAO dao = new CustomerDAO();
 
-			Customer vo = new Customer();
+            Customer vo = dao.login(username, password);
+            if(vo.getUsername() != null) {
+                jsonObj.put("state", "success");
 
-			vo = dao.login(username, password);
-			
-			System.out.println(vo.getFirstName());
-			jsonObj.put("estado", "CORRECTO");
-						
+            } else {
+                Integer count = dao.getCounterByUsername(username);
+                count++;
+                dao.addCount(username, count);
+                if(count > 2) {
+                    dao.changeStatus(username, 1);
+                }
+                jsonObj.put("state", "fail");
+            }
+
 		} catch (DAOExcepcion e) {
-			jsonObj.put("estado", "FALLIDO");
 			System.out.println(e.getMessage());
 		}
 		return jsonObj.toString();
