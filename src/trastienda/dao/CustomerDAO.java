@@ -82,23 +82,24 @@ public class CustomerDAO extends BaseDAO {
 
         Connection con = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         Boolean r = false;
         try {
 
-            String query = "INSERT INTO customer (Status) values (?) where Username = ?";
+            String query = "UPDATE customer SET Status = ? where Username = ?";
             con = ConexionBD.obtenerConexion();
             stmt = con.prepareStatement(query);
             stmt.setInt(1, status);
-            stmt.setString(1, username);
+            stmt.setString(2, username);
             r = true;
 
-            rs = stmt.executeQuery();
+            int i = stmt.executeUpdate();
+            if (i != 1) {
+                throw new SQLException("No se pudo actualizar");
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new DAOExcepcion(e.getMessage());
         } finally {
-            this.closeResultSet(rs);
             this.closeStatement(stmt);
             this.closeConnection(con);
         }
@@ -109,23 +110,26 @@ public class CustomerDAO extends BaseDAO {
 
         Connection con = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         Boolean r = false;
         try {
 
-            String query = "INSERT INTO customer (AttemptCounter) values (?) where Username = ?";
+
+            String query = "UPDATE customer SET AttemptCounter = ? where Username = ?";
             con = ConexionBD.obtenerConexion();
             stmt = con.prepareStatement(query);
             stmt.setInt(1, count);
-            stmt.setString(1, username);
-            r = true;
+            stmt.setString(2, username);
+            int i = stmt.executeUpdate();
+            if (i != 1) {
+                throw new SQLException("No se pudo actualizar");
+            }
 
-            rs = stmt.executeQuery();
+            r = true;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new DAOExcepcion(e.getMessage());
+
         } finally {
-            this.closeResultSet(rs);
             this.closeStatement(stmt);
             this.closeConnection(con);
         }
