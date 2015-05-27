@@ -16,9 +16,12 @@ import javax.ws.rs.core.MediaType;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import trastienda.dao.SavingDAO;
 import trastienda.dao.TransactionDAO;
 import trastienda.excepcion.DAOExcepcion;
 import trastienda.modelo.Checking;
+
 import trastienda.modelo.Saving;
 import trastienda.modelo.Transaction;
 import trastienda.modelo.Account;
@@ -51,7 +54,29 @@ public class TransactionRest
 		}
 		return arrayObj.toString();
 	}
+	
+	//Show all transactions
+	
+	@GET
+	@Path("Saving/{AccountNumber}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String searchByAccountNum( @PathParam("AccountNumber") String accountNum ) {
 
+		System.out.println("Dentro de buscarPorNombre() : accountNum: " + accountNum);
+		JSONArray arrayObj = new JSONArray();
+		
+		try {
+			SavingDAO dao = new SavingDAO();
+			Collection<Transaction> transactions =  dao.searchByAccountNum(accountNum);
+			System.out.println(transactions.size());
+			arrayObj.addAll(transactions);
+			
+		} catch (DAOExcepcion e) {	
+			System.out.println(e.getMessage());
+		}
+		return arrayObj.toString();
+	}
+	
 	@GET
 	@Path("/byId/{TransactionID}")
 	@Produces(MediaType.APPLICATION_JSON)

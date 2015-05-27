@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import trastienda.excepcion.DAOExcepcion;
 import trastienda.modelo.Saving;
+import trastienda.modelo.Transaction;
 import trastienda.util.ConexionBD;
 
 
@@ -53,20 +54,46 @@ public class SavingDAO extends BaseDAO
 		return vo;
 }
 
-//public Collection<Saving> searchByAccountNumber(int accountNumber) throws DAOException
-//{
-//	String query = "select account.CustomerID, account.DateOpened, Saving.* from account, Saving where account.AccountNumber = Saving.AccountNumber";
-//	Collection<Saving> c = new ArrayList<Saving>();
-//	Connection con = null;
-//	PreparedStatement stmt = null;
-//	ResultSet rs = null;
-//	try
-//	{
-//		con = ConnectionBD.openConnection();
-//		stmt = con.prepareStatement(query);
-//		stmt.setString(1, accountNumber)
-//	}
-//}
+	public Collection<Transaction> searchByAccountNum(String accountNum)
+			throws DAOExcepcion {
+		String query = "select Type, DateTime, Amount, Status from transaction where AccountTarget = ?";
+		Collection<Transaction> c = new ArrayList<Transaction>();
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			con = ConexionBD.obtenerConexion();
+			stmt = con.prepareStatement(query);
+			stmt.setString(1, accountNum);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				Transaction vo = new Transaction();
+				//vo.setIdProducto(rs.getInt("id_producto"));				
+				//vo.setNombre(rs.getString("nombre"));
+				//System.out.println("----------->" + vo.getNombre());
+				//vo.setDescripcion(rs.getString("descripcion"));
+				//vo.setPrecio(rs.getFloat("precio"));
+				//vo.setStock(rs.getInt("stock"));
+				//vo.setImportancia(rs.getInt("importancia"));
+				//vo.setImagen(rs.getString("imagen"));
+				vo.setTransType(rs.getString("Type"));
+				vo.setTransDateTime(rs.getString("DateTime"));
+				vo.setTransAmount(rs.getDouble("Amount"));
+				vo.setTransStatus(rs.getString("Status"));
+				
+				
+				c.add(vo);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			throw new DAOExcepcion(e.getMessage());
+		} finally {
+			this.closeResultSet(rs);
+			this.closeStatement(stmt);
+			this.closeConnection(con);
+		}
+		return c;
+	}
 
 public Saving insert(Saving vo) throws DAOExcepcion
 {
