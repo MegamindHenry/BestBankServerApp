@@ -283,12 +283,13 @@
         </tr>
       </thead>
       <tbody>
+      
           <%
           for (Transaction t : transactions) {
-	          out.println("<tr>" + "<th scope=\"row\">"+ "</th>" + 
-	          "<td>" + t.getTransDescription() + "</td>" +
+	          out.println("<tr>" + "<th scope=\"row\">"
+              + t.getTransDescription() + "</th>" + 
 	          "<td>" + t.getTransDateTime()   + "</td>");
-	          if(t.getTransType()=="Whithdrawal"){
+	          if(t.getTransType().equals("Withdrawal")){
 	        	  out.println( "<td>" + t.getTransAmount() + "</td>");
 	          }
 	          else{
