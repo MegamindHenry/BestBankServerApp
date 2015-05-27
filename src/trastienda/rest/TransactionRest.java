@@ -1,30 +1,17 @@
 package trastienda.rest;
 
-import java.sql.Date;
-import java.util.Collection;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import trastienda.dao.SavingDAO;
 import trastienda.dao.TransactionDAO;
 import trastienda.excepcion.DAOExcepcion;
 import trastienda.modelo.Checking;
-
 import trastienda.modelo.Saving;
 import trastienda.modelo.Transaction;
-import trastienda.modelo.Account;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.Collection;
 
 @Path("/transaction")
 public class TransactionRest 
@@ -33,7 +20,7 @@ public class TransactionRest
 	@GET
 	@Path("/byType/{Type}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
-	public String searchByTransType( @PathParam("{Type}") String transType ) 
+	public String searchByTransType( @PathParam("Type") String transType)
 	{
 		
 		System.out.println("searchByTransId() : Transaction ID: " + transType);
@@ -86,12 +73,14 @@ public class TransactionRest
 				}
 			}
 			transDao.insertAbc(withdraw);
+            obj.put("response", "success");
 			
 		} 
 		
 		catch (DAOExcepcion e) 
 		{	
 			System.out.println(e.getMessage());
+            obj.put("response", "error");
 		}
 		return obj.toString();
 	}

@@ -49,7 +49,7 @@ public class CustomerDAO extends BaseDAO {
 
     }
 
-    public Customer create(String username, String password, String email, String phone, String firstName, String lastName, String ssn, String address, String city, String province, String dob) throws DAOExcepcion {
+    public Customer create(String username, String password, String email, String phone, String firstName, String lastName, String ssn, String dob) throws DAOExcepcion {
 
         Customer cu = new Customer();
         Address ad = new Address();
@@ -59,7 +59,7 @@ public class CustomerDAO extends BaseDAO {
 
         try {
 
-            String query = "INSERT INTO customer(Username, Password, Email, Phone, FirstName, LastName, SSN, Address, City, Province, DOB) values (?,?,?,?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO customer(Username, Password, Email, Phone, FirstName, LastName, SSN, DOB) values (?,?,?,?,?,?,?,?)";
             con = ConexionBD.obtenerConexion();
             stmt = con.prepareStatement(query);
             stmt.setString(1, username);
@@ -69,6 +69,7 @@ public class CustomerDAO extends BaseDAO {
             stmt.setString(5, firstName);
             stmt.setString(6, lastName);
             stmt.setString(7, ssn);
+            stmt.setString(8, dob);
 
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -79,6 +80,7 @@ public class CustomerDAO extends BaseDAO {
                 cu.setFirstName(rs.getString(5));
                 cu.setLastName(rs.getString(6));
                 cu.setSocialSecurityNumber(rs.getString(7));
+                cu.setBirthDate(rs.getString(8));
             }
 
             String lid = "SELECT LAST_INSERT_ID() from customer";
@@ -88,15 +90,6 @@ public class CustomerDAO extends BaseDAO {
             if (rs.next()) {
                 cu.setCustomerID(rs.getInt(1));
             }
-
-            String queryAddress = "INSERT INTO address(CustomerID, Street, City, Province, ZipCode) values (?,?,?,?,?)";
-            stmt = con.prepareStatement(queryAddress);
-
-            stmt.setInt(1, cu.getCustomerID());
-            stmt.setString(2, address);
-            stmt.setString(3, city);
-            stmt.setString(4, province);
-            stmt.setString(5, dob);
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());

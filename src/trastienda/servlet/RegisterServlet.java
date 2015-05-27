@@ -1,6 +1,10 @@
 package trastienda.servlet;
 
+import trastienda.dao.AdressDAO;
 import trastienda.dao.CustomerDAO;
+import trastienda.excepcion.DAOExcepcion;
+import trastienda.modelo.Address;
+import trastienda.modelo.Customer;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
@@ -8,7 +12,7 @@ import java.io.IOException;
 @WebServlet("/register")
 public class RegisterServlet {
 
-    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException, DAOExcepcion {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -18,6 +22,7 @@ public class RegisterServlet {
         String phone = request.getParameter("phone");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
+        String ssn = request.getParameter("ssn");
         String address = request.getParameter("address");
         String city = request.getParameter("city");
         String province = request.getParameter("province");
@@ -36,7 +41,10 @@ public class RegisterServlet {
         String answer5 = request.getParameter("answer5");
 
         CustomerDAO dao = new CustomerDAO();
+        AdressDAO ad = new AdressDAO();
 
+        Customer customer = dao.create(username, password, email, phone, firstName, lastName, ssn, dob);
+        Address add = ad.create(customer.getCustomerID(),address, city, province);
 
     }
 
