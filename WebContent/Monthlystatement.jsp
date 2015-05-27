@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="trastienda.modelo.Customer" %>
+<%@ page import="trastienda.modelo.Transaction" %>
+<%@ page import="trastienda.dao.TransactionDAO" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Collection" %>
 
 <html>
   <head>
@@ -33,7 +37,6 @@
     	}
 	</script>
 	
-
 	
 	<!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -53,10 +56,6 @@
 	    })
 		}
 	</script>
-	
-
-	
-
 	
 	  <style>
         /*
@@ -169,6 +168,13 @@
 </head>
 
 <body>
+
+				<%
+ 		        TransactionDAO transactionDAO = new TransactionDAO();
+ 		        Collection<Transaction> transactions = new ArrayList<Transaction>();
+ 		        transactions = transactionDAO.listTransactionsByType("0");
+ 		        %>
+
 <!--  test -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -179,7 +185,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="dashboard.jsp">Banco del Perú</a>
+            <a class="navbar-brand" href="#">Banco del Perú</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -231,17 +237,19 @@
 	<!--  not needed --> <!-- <a  href="#" ><p class="text-right">Logout</p></a>-->
 	<h3>Monthly Statement</h3></br> 	
 	<div class="input-group">
-  		<span class="input-group-addon" id="basic-addon1">User Account: </span>
+  		<span class="input-group-addon" id="basic-addon1">Account: </span>
  		<div class="dropdown">
-  			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-   			 Select 
+ 		    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+   			 Select an account
    	 		<span class="caret"></span>
   			</button>
-  		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-    		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-    		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-  		</ul>
+  		  	<%
+  			for (Transaction t : transactions){
+  			out.println("<ul class=\"dropdown-menu\" role=\"menu\" aria-labelledby=\"dropdownMenu1\">" + "<li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" href=\"#\">" 
+  			+ t.getTransAccountTarget()+  "</a></li>" + "</ul>");
+  			}
+  			%>
+  		
 		</div>
 	</div></br>
 	
@@ -275,20 +283,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row"></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <th scope="row">Total</th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+          <%
+          for (Transaction t : transactions) {
+	          out.println("<tr>" + "<th scope=\"row\">"+ "</th>" + 
+	          "<td>" + t.getTransDescription() + "</td>" +
+	          "<td>" + t.getTransDateTime()   + "</td>");
+	          if(t.getTransType()=="Whithdrawal"){
+	        	  out.println( "<td>" + t.getTransAmount() + "</td>");
+	          }
+	          else{
+	        	  out.println("<td>" + "</td>");
+	        	  out.println( "<td>" + t.getTransAmount() + "</td>" + "</tr>");
+	          }
+          }
+          %>
       </tbody>
     </table>
 	<button type="button"  class="btn btn-primary">Back</button>
