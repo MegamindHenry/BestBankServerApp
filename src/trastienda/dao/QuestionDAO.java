@@ -5,7 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 import trastienda.excepcion.DAOExcepcion;
@@ -15,6 +16,35 @@ import trastienda.util.ConexionBD;
 
 
 public class QuestionDAO extends BaseDAO {
+
+	public Collection<Question> getAll() throws DAOExcepcion {
+
+		Question vo = new Question();
+        Collection<Question> c = new ArrayList<Question>();
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			String query = "select * from question";
+			con = ConexionBD.obtenerConexion();
+			stmt = con.prepareStatement(query);
+
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				vo.setQuestionNum(rs.getInt(1));
+				vo.setQuestion(rs.getString(2));
+                c.add(vo);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			throw new DAOExcepcion(e.getMessage());
+		} finally {
+			this.closeResultSet(rs);
+			this.closeStatement(stmt);
+			this.closeConnection(con);
+		}
+		return c;
+	}
 
 	public Question getByQuestionNumber(int QuestionNum) throws DAOExcepcion {
 		Question vo = new Question();

@@ -57,7 +57,7 @@ public class CustomerDAO extends BaseDAO {
 
         try {
 
-            String query = "select AttempCounter from customer where Username=?";
+            String query = "select AttemptCounter from customer where Username=?";
             con = ConexionBD.obtenerConexion();
             stmt = con.prepareStatement(query);
             stmt.setString(1, username);

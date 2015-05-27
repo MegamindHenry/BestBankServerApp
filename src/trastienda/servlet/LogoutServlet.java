@@ -2,7 +2,6 @@ package trastienda.servlet;
 
 import trastienda.excepcion.DAOExcepcion;
 import trastienda.modelo.Customer;
-import trastienda.negocio.Session;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;

@@ -1,3 +1,7 @@
+<%@ page import="trastienda.dao.QuestionDAO" %>
+<%@ page import="trastienda.modelo.Question" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Collection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,6 +21,12 @@
     </style>
 </head>
 <body>
+
+<%
+    QuestionDAO questionDAO = new QuestionDAO();
+    Collection<Question> questions = new ArrayList<Question>();
+    questions = questionDAO.getAll();
+%>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -110,11 +120,11 @@
             <div class="form-group">
                 <label for="securityQuestion1">Question 1:</label>
                 <select class="form-control" name="securityQuestion1" id="securityQuestion1">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <%
+                        for (Question q : questions) {
+                            out.println("<option value='"+ q.getQuestionNum() +"'>"+ q.getQuestion() +"</option>");
+                        }
+                    %>
                 </select>
                 <label for="answer1">Answer 1:</label>
                 <input type="text" name="answer1" id="answer1" placeholder="Answer your question 1" class="form-control"/>
@@ -123,11 +133,11 @@
             <div class="form-group">
                 <label for="securityQuestion2">Question 2:</label>
                 <select class="form-control" name="securityQuestion2" id="securityQuestion2">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <%
+                        for (Question q : questions) {
+                            out.println("<option value='"+ q.getQuestionNum() +"'>"+ q.getQuestion() +"</option>");
+                        }
+                    %>
                 </select>
                 <label for="answer2">Answer 2:</label>
                 <input type="text" name="answer2" id="answer2" placeholder="Answer your question 2" class="form-control"/>
@@ -136,11 +146,11 @@
             <div class="form-group">
                 <label for="securityQuestion3">Question 3:</label>
                 <select class="form-control" name="securityQuestion3" id="securityQuestion3">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <%
+                        for (Question q : questions) {
+                            out.println("<option value='"+ q.getQuestionNum() +"'>"+ q.getQuestion() +"</option>");
+                        }
+                    %>
                 </select>
                 <label for="answer3">Answer 3:</label>
                 <input type="text" name="answer3" id="answer3" placeholder="Answer your question 3" class="form-control"/>
@@ -149,11 +159,11 @@
             <div class="form-group">
                 <label for="securityQuestion4">Question 4:</label>
                 <select class="form-control" name="securityQuestion4" id="securityQuestion4">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <%
+                        for (Question q : questions) {
+                            out.println("<option value='"+ q.getQuestionNum() +"'>"+ q.getQuestion() +"</option>");
+                        }
+                    %>
                 </select>
                 <label for="answer4">Answer 4:</label>
                 <input type="text" name="answer4" id="answer4" placeholder="Answer your question 4" class="form-control"/>
@@ -162,11 +172,11 @@
             <div class="form-group">
                 <label for="securityQuestion5">Question 5:</label>
                 <select class="form-control" name="securityQuestion5" id="securityQuestion5">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <%
+                        for (Question q : questions) {
+                            out.println("<option value='"+ q.getQuestionNum() +"'>"+ q.getQuestion() +"</option>");
+                        }
+                    %>
                 </select>
                 <label for="answer5">Answer 5:</label>
                 <input type="text" name="answer5" id="answer5" placeholder="Answer your question 5" class="form-control"/>
