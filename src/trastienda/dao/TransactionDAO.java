@@ -153,7 +153,59 @@ public class TransactionDAO extends BaseDAO
 			stmt.setString(6, vo.getTransStatus());
 			stmt.setInt(7, vo.getTransAccountTarget());
 			stmt.setString(8, vo.getTransAccountType());
-			stmt.setInt(9, vo.getAccount().getAccountNumber());
+			//stmt.setInt(9, vo.getAccount().getAccountNumber());
+			
+			
+			int i = stmt.executeUpdate();
+			if (i != 1) 
+			{
+				throw new SQLException("This cannot be inserted");
+			}
+
+			int id = 0;
+			query = "SELECT LAST_INSERT_ID()";
+			stmt = con.prepareStatement(query);
+			rs = stmt.executeQuery();
+			if (rs.next()) 
+			{
+				id = rs.getInt(1);
+			}
+			vo.setTransId(id);
+		} 
+		
+		catch (SQLException e) 
+		{
+			System.err.println(e.getMessage());
+			throw new DAOExcepcion(e.getMessage());
+		} 
+		
+		finally 
+		{
+			this.closeResultSet(rs);
+			this.closeStatement(stmt);
+			this.closeConnection(con);
+		}
+		return vo;
+	}
+	
+	public Transaction insertAbc(Transaction vo) throws DAOExcepcion 
+	{
+		String query = "INSERT INTO transaction(Type, Amount, DateTime , AccountTarget, AccountType) VALUES (?,?,now(),?,?)";
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try 
+		{
+			con = ConexionBD.obtenerConexion();
+			stmt = con.prepareStatement(query);
+			
+			
+			stmt.setString(1, vo.getTransType());
+			stmt.setDouble(2, vo.getTransAmount());
+			stmt.setInt(3, vo.getTransAccountTarget());
+			stmt.setString(4, vo.getTransAccountType());
+			//stmt.setInt(9, vo.getAccount().getAccountNumber());
 			
 			
 			int i = stmt.executeUpdate();
