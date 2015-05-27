@@ -85,6 +85,45 @@ public class TransactionRest
 		return obj.toString();
 	}
 	
+	//Make Deposit
+		@POST
+		@Path("/deposit")
+		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+		@Produces(MediaType.APPLICATION_JSON)
+		public String makeDeposit( @FormParam("account") int accountNum, @FormParam("amount") Double amount , @FormParam("type") String accountType) 
+		{
+			
+			JSONObject obj = new JSONObject();    
+			
+			try 
+			{
+				TransactionDAO transDao = new TransactionDAO();
+
+				
+				Transaction deposit = new Transaction();
+				deposit.setTransAmount(amount);
+				deposit.setTransType("Deposit");
+				deposit.setTransAccountTarget(accountNum);
+				if("1".equals("1"))
+				{
+					Saving account = new Saving();
+					double balance = account.getAvailableBal();
+					deposit.setTransAccountType("Saving");
+					account.setAvailableBal(balance + amount);
+					System.out.println("It may have worked");
+					
+				}
+				transDao.insertAbc(deposit);
+				
+			} 
+			
+			catch (DAOExcepcion e) 
+			{	
+				System.out.println(e.getMessage());
+			}
+			return obj.toString();
+		}
+	
 	//Show all transactions
 	
 	@GET
