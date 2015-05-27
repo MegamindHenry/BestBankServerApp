@@ -86,7 +86,7 @@
                       <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
                   </div>
               </div>
-
+              <div class="clearfix"></div>
               <div class="checkbox">
                   <label>
                       <input type="checkbox" value="remember-me"> Remember me

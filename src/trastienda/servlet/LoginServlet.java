@@ -19,8 +19,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         CustomerDAO dao = new CustomerDAO();
 
         try {
-            Customer c = new Customer();
-            c = dao.login(username, password);
+            Customer c = dao.login(username, password);
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
             if(c.getUsername() != null) {
                 HttpSession httpSession = request.getSession(true);
@@ -37,8 +36,6 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         } catch (DAOExcepcion daoExcepcion) {
             daoExcepcion.printStackTrace();
         }
-
-        return;
 
     }
 }
