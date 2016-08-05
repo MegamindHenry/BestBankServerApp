@@ -65,6 +65,8 @@
   <%
       if(session.getAttribute("login") != null && !session.getAttribute("login").equals("")){
           response.sendRedirect("dashboard.jsp");
+          // demo de David	
+          // oja una mas
       }
   %>
 
